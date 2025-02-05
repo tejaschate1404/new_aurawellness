@@ -1,0 +1,97 @@
+{% extends 'admin/baseAdmin.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center fw-bold">Counseling Record: {{ record.first_name }} {{ record.surname }}</h2>
+
+    <!-- Display the Counseling Record -->
+    <div class="card shadow-lg mb-4">
+        <div class="card-body">
+            <h4 class="card-title mb-3 text-center">{{ record.first_name }} {{ record.surname }}</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Category:</strong> {{ record.category.category }}</p>
+                    <p><strong>Given Name:</strong> {{ record.given_name }}</p>
+                    <p><strong>Gender:</strong> {{ record.get_gender_display }}</p>
+                    <p><strong>Born Date:</strong> {{ record.born_date }}</p>
+                    <p><strong>Born Place:</strong> {{ record.born_place }}</p>
+                    <p><strong>Born Country:</strong> {{ record.born_country }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Position:</strong> {{ record.position }}</p>
+                    <p><strong>Organization:</strong> {{ record.organization }}</p>
+                    <p><strong>Division:</strong> {{ record.division }}</p>
+                    <p><strong>Address:</strong> {{ record.street }}, {{ record.zip_code }}, {{ record.state }}, {{ record.country }}</p>
+                    <p><strong>Phone:</strong> {{ record.phone_number }}</p>
+                    <p><strong>Email:</strong> {{ record.mail_address }}</p>
+                </div>
+            </div>
+
+            {% if record.gmail_addresses.all %}
+                <div class="mb-4">
+                    <h5 class="text-center">Associated Gmail Addresses:</h5>
+                    <ul class="list-group">
+                        {% for gmail in record.gmail_addresses.all %}
+                            <li class="list-group-item">{{ gmail.email }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if record.phone_numbers.all %}
+                <div class="mb-4">
+                    <h5 class="text-center">Associated Phone Numbers:</h5>
+                    <ul class="list-group">
+                        {% for phone in record.phone_numbers.all %}
+                            <li class="list-group-item">{{ phone.phone_number }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if record.images.all %}
+                <div class="mb-4">
+                    <h5 class="text-center">Uploaded Images:</h5>
+                    <div class="row">
+                        {% for image in record.images.all %}
+                            <div class="col-md-4 mb-3">
+                                <img src="{{ image.image.url }}" class="img-fluid rounded shadow-sm" alt="Image">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Display Notes -->
+    <div class="mt-4">
+        <h5 class="text-center">Notes:</h5>
+        <ul class="list-group">
+            {% for note in show_note %}
+                <li class="list-group-item">{{ note.note }} <span class="text-muted">{{ note.created_at }}</span></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Add a Note -->
+    <div class="mt-4">
+        <h5 class="text-center">Add a Note:</h5>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="note">Note:</label>
+                <textarea name="note" id="note" rows="4" class="form-control" placeholder="Enter your note here..."></textarea>
+            </div>
+            <input type="hidden" name="date" value="{{ current_date }}">
+            <button type="submit" class="btn btn-primary mt-3 w-100">Save Note</button>
+        </form>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="btn-group w-100 mt-4">
+        <a href="{% url 'viewCounseling' %}" class="btn btn-secondary">Back to Counseling List</a>
+        <a href="{% url 'delete_counseling' record.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this record?')">Delete Counseling Record</a>
+    </div>
+</div>
+{% endblock %}

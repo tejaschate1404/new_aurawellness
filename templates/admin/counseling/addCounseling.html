@@ -1,0 +1,139 @@
+{% extends 'admin/baseAdmin.html' %}
+
+{% block style %}
+<style>
+label, h2, button {
+    font-weight: bold !important;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container my-5 m-3">
+    <h2 class="mb-4 fw-bold">Counseling Healing</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Name Fields -->
+        <div class="mb-3">
+            <label for="name" class="form-label fw-bold">Name</label>
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="givenName" name="givenName" placeholder="Given Name" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+            <label for="category" class="form-label fw-bold">Category :</label>
+            <select class="form-select" id="category" name="category" required>
+                <option value="">Select a Category</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+
+        
+
+        <!-- Gender -->
+        <div class="mb-3">
+            <label class="form-label fw-bold">Gender</label>
+            <div>
+                <input type="radio" id="male" name="gender" value="Male" required>
+                <label for="male" class="p-2 fw-bold">Male</label>
+
+                <input type="radio" id="female" name="gender" value="Female" required>
+                <label for="female" class="p-2 fw-bold">Female</label>
+
+                <input type="radio" id="other" name="gender" value="Other" required>
+                <label for="other" class="p-2 fw-bold">Other</label>
+            </div>
+        </div>
+
+        <!-- Date, Time, and Country -->
+        <div class="mb-3">
+            <label for="dob" class="form-label fw-bold">Born</label>
+            <div class="row">
+                <div class="col-md-4">
+                    <input type="date" class="form-control" id="dob" name="dob" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name="place" placeholder="Place" required>
+                </div>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="country" name="country" placeholder="Enter Country" required>
+                </div>
+            </div>
+        </div>
+
+        <!-- Position -->
+        <div class="mb-3">
+            <label for="description" class="form-label fw-bold">Position :</label>
+            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+        </div>
+
+        <!-- Organization -->
+        <label for="organization" class="form-label fw-bold">Organization</label>
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="companyName" name="companyName" placeholder="Company Name" required>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="division" name="division" placeholder="Division" required>
+            </div>
+        </div>
+
+        <!-- Address -->
+        <label for="address" class="form-label mt-3 fw-bold">Address</label>
+        <div class="row">
+            <div class="col-md-4 m-2">
+                <input type="number" class="form-control" id="streetNumber" name="streetNumber" placeholder="Street Number" required>
+            </div>
+            <div class="col-md-4 m-2">
+                <input type="text" class="form-control" id="zip" name="zip" placeholder="Zip" required>
+            </div>
+            <div class="col-md-4 m-2">
+                <input type="text" class="form-control" id="place" name="place" placeholder="Place" required>
+            </div>
+            <div class="col-md-4 m-2">
+                <input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+            </div>
+            <div class="col-md-4 m-2">
+                <input type="text" class="form-control" id="addressCountry" name="addressCountry" placeholder="Country" required>
+            </div>
+            <div class="col-md-4 m-2">
+                <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone" required>
+            </div>
+        </div>
+
+        <!-- Certificate Image -->
+        <div class="mb-3">
+            <label for="image" class="form-label fw-bold">Image</label>
+            <input class="form-control" type="file" id="image" name="image">
+        </div>
+
+        <div class="mb-3">
+            <label for="title" class="form-label fw-bold">Gmail</label>
+            <input type="email" class="form-control" id="title" name="title" placeholder="Email" required>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary fw-bold">Submit</button>
+            <button type="submit" class="btn btn-success fw-bold">Add Person</button>
+            <button type="submit" class="btn btn-info fw-bold">Free Counselling</button>
+            <button type="submit" class="btn btn-danger fw-bold">Payment</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
